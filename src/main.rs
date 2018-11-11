@@ -28,14 +28,14 @@ struct App {
 //const WHITE: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
 const BLACK: [f32; 4] = [0.0, 0.0, 0.0, 1.0];
 const LIGHT_GRAY: [f32; 4] = [0.3, 0.3, 0.3, 1.0];
-const DARK_GRAY: [f32; 4] = [0.1, 0.1, 0.1, 1.0];
-const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
-const CYAN: [f32; 4] = [0.0, 1.0, 1.0, 1.0];
-const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
-const BLUE: [f32; 4] = [0.0, 0.0, 1.0, 1.0];
-const ORANGE: [f32; 4] = [1.0, 0.5, 0.0, 1.0];
-const YELLOW: [f32; 4] = [1.0, 1.0, 0.0, 1.0];
-const PURPLE: [f32; 4] = [0.5, 0.0, 1.0, 1.0];
+const DARK_GRAY: [f32; 4] = [0.15, 0.15, 0.15, 1.0];
+const GREEN: [f32; 4] = [0.29, 0.682, 0.0, 1.0];
+const CYAN: [f32; 4] = [0.18, 0.459, 0.510, 1.0];
+const RED: [f32; 4] = [0.804, 0.271, 0.31, 1.0];
+const BLUE: [f32; 4] = [0.239, 0.290, 0.565, 1.0];
+const ORANGE: [f32; 4] = [0.827, 0.576, 0.278, 1.0];
+const YELLOW: [f32; 4] = [0.827, 0.737, 0.278, 1.0];
+const PURPLE: [f32; 4] = [0.404, 0.212, 0.557, 1.0];
 
 fn get_shape_color(shape_index: i32) -> [f32; 4] {
     match shape_index {
@@ -124,7 +124,7 @@ impl Render {
                     let color = match cell.cell_type {
                         GridCellType::Shape => get_shape_color(cell.shape_index),
                         GridCellType::Fixed => get_shape_color(cell.shape_index),
-                        GridCellType::Ghost => LIGHT_GRAY,
+                        GridCellType::Ghost => DARK_GRAY,
                         _ => {
                             assert!(false);
                             BLACK
