@@ -1,3 +1,4 @@
+extern crate ears;
 extern crate piston;
 extern crate graphics;
 extern crate glutin_window;
@@ -6,16 +7,17 @@ extern crate rand;
 
 pub mod tetris;
 
-use piston::window::{ WindowSettings };
+use piston::window::WindowSettings;
 use glutin_window::GlutinWindow as Window;
 use piston::event_loop::*;
-use opengl_graphics::{ GlGraphics, OpenGL };
-use opengl_graphics::{ Filter, GlyphCache, TextureSettings };
-use graphics::{ Transformed };
+use opengl_graphics::{GlGraphics, OpenGL};
+use opengl_graphics::{Filter, GlyphCache, TextureSettings};
+use graphics::Transformed;
 use piston::input::*;
+use ears::{AudioController, Sound};
 
 use std::path::Path;
-use std::fs::OpenOptions;
+use std::thread;
 use tetris::*;
 
 struct App {
@@ -25,7 +27,6 @@ struct App {
     cache: GlyphCache<'static>,
 }
 
-//const WHITE: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
 const BLACK: [f32; 4] = [0.0, 0.0, 0.0, 1.0];
 const LIGHT_GRAY: [f32; 4] = [0.3, 0.3, 0.3, 1.0];
 const DARK_GRAY: [f32; 4] = [0.15, 0.15, 0.15, 1.0];
@@ -139,6 +140,18 @@ impl Render {
     }
 }
 
+struct Audio;
+
+impl Audio {
+    fn play_sound() {
+        thread::spawn(move || {
+            let mut snd = Sound::new("assets/plop.ogg").unwrap();
+            snd.play();        
+            while snd.is_playing() {}
+        });
+    }
+}
+
 impl App {
     fn render(&mut self, args: &RenderArgs) {
         // so that we can access inside closure
@@ -221,6 +234,7 @@ impl App {
                 while self.tetris.set_row(row) {
                     row += 1;
                 }
+                Audio::play_sound(); // audio PoC, hacked in for now
                 // hard drop immediately spawns next shape
                 self.tetris.tick();
                 self.elapsed_time = 0.0;
@@ -262,16 +276,7 @@ fn start_app() {
         build().
         unwrap();
     
-    let font_path = match OpenOptions::new().read(true).open("FiraMono-Bold.ttf") {
-        Ok(_) => Path::new("FiraMono-Bold.ttf"),
-        Err(_) => {
-            match OpenOptions::new().read(true).open("src/FiraMono-Bold.ttf") {
-                Ok(_) => Path::new("src/FiraMono-Bold.ttf"),
-                Err(_) => panic!("Font file is missing, or does not exist in the current path."),
-            }
-        }
-    };
-
+    let font_path = Path::new("assets/FiraMono-Bold.ttf");
     let mut app = App {
         gl: GlGraphics::new(opengl),
         tetris: Tetris::new(),

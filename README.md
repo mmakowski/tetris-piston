@@ -22,6 +22,12 @@ The game has the following features:
 
 ### Building the project
 
+Install libraries required for audio:
+
+```bash
+sudo apt install libopenal-dev libsndfile1-dev
+```
+
 Assuming you already have Rust installed, to build the game unzip the source code and from a command prompt enter:
 
 cargo build
