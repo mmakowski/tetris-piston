@@ -124,7 +124,7 @@ impl Render {
                     let color = match cell.cell_type {
                         GridCellType::Shape => get_shape_color(cell.shape_index),
                         GridCellType::Fixed => get_shape_color(cell.shape_index),
-                        GridCellType::Ghost => DARK_GRAY,
+                        GridCellType::Ghost => LIGHT_GRAY,
                         _ => {
                             assert!(false);
                             BLACK
