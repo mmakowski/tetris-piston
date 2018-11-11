@@ -6,7 +6,7 @@ extern crate rand;
 
 pub mod tetris;
 
-use piston::window::{ AdvancedWindow, WindowSettings };
+use piston::window::{ WindowSettings };
 use glutin_window::GlutinWindow as Window;
 use piston::event_loop::*;
 use opengl_graphics::{ GlGraphics, OpenGL };
@@ -90,26 +90,26 @@ impl Render {
         let mut result: graphics::context::Context = transform;
         let mut text = graphics::Text::new(TEXT_FONT_SIZE);
         text.color = ORANGE;
-        text.draw(&"GAME OVER", cache, &c.draw_state, result.transform, gl);
+        text.draw(&"GAME OVER", cache, &c.draw_state, result.transform, gl).unwrap();
         result = result.trans(0f64, LINE_HEIGHT);
 
-        text.draw(&"Press 'N' for a new game", cache, &c.draw_state, result.transform, gl);
+        text.draw(&"Press 'N' for a new game", cache, &c.draw_state, result.transform, gl).unwrap();
         result = result.trans(0f64, LINE_HEIGHT);
 
         text.draw(&"Use arrow keys to move and rotate", cache, &c.draw_state, 
-            result.transform, gl);
+            result.transform, gl).unwrap();
         result = result.trans(0f64, LINE_HEIGHT);
         
         text.draw(&"Press spacebar to drop", cache, &c.draw_state, 
-            result.transform, gl);
+            result.transform, gl).unwrap();
         result = result.trans(0f64, LINE_HEIGHT);
 
         text.draw(&format!("Press 'K' to decrease starting level ({})", tetris.get_starting_level()), 
-            cache, &c.draw_state, result.transform, gl);
+            cache, &c.draw_state, result.transform, gl).unwrap();
         result = result.trans(0f64, LINE_HEIGHT);
 
         text.draw(&"Press 'L' to increase starting level", 
-            cache, &c.draw_state, result.transform, gl);
+            cache, &c.draw_state, result.transform, gl).unwrap();
         result = result.trans(0f64, LINE_HEIGHT);
         result
     }
@@ -154,11 +154,11 @@ impl App {
             text.color = ORANGE;
             let mut transform: graphics::context::Context = c.trans(STATUS_LEFT_MARGIN, STATUS_TOP_MARGIN);
             text.draw(&format!("Level: {}", use_tetris.get_level()), use_cache, &c.draw_state, 
-                transform.transform, gl);
+                transform.transform, gl).unwrap();
             transform = transform.trans(0f64, LINE_HEIGHT);
 
             text.draw(&format!("Score: {}", use_tetris.get_score()), use_cache, &c.draw_state, 
-                transform.transform, gl);
+                transform.transform, gl).unwrap();
             transform = transform.trans(0f64, LINE_HEIGHT);
 
             transform = Render::render_next_shape(&c, gl, use_tetris, transform);
