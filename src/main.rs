@@ -279,7 +279,7 @@ fn start_app() {
         cache: GlyphCache::new(font_path, (), TextureSettings::new().filter(Filter::Nearest)).unwrap(),
     };  
 
-    let mut events = Events::new(EventSettings::new().lazy(true));
+    let mut events = Events::new(EventSettings::new());
     while let Some(e) = events.next(&mut window) {
         if let Some(Button::Keyboard(key)) = e.press_args() {
             app.handle_key_input(key);
