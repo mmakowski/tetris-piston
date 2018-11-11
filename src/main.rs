@@ -10,7 +10,7 @@ use piston::window::{ AdvancedWindow, WindowSettings };
 use glutin_window::GlutinWindow as Window;
 use piston::event_loop::*;
 use opengl_graphics::{ GlGraphics, OpenGL };
-use opengl_graphics::glyph_cache::GlyphCache;
+use opengl_graphics::{ Filter, GlyphCache, TextureSettings };
 use graphics::{ Transformed };
 use piston::input::*;
 
@@ -276,10 +276,10 @@ fn start_app() {
         gl: GlGraphics::new(opengl),
         tetris: Tetris::new(),
         elapsed_time: 0.0,
-        cache: GlyphCache::new(font_path).unwrap(),
+        cache: GlyphCache::new(font_path, (), TextureSettings::new().filter(Filter::Nearest)).unwrap(),
     };  
 
-    let mut events = window.events();
+    let mut events = Events::new(EventSettings::new().lazy(true));
     while let Some(e) = events.next(&mut window) {
         if let Some(Button::Keyboard(key)) = e.press_args() {
             app.handle_key_input(key);
